@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  
+  <meta charset="UTF-8">
+  <title>AkaMoonKana</title>
+  <style>
+    
+    :root {
+      --mauve-light: #c7b8dd;
+      --mauve-medium: #9b79c6;
+      --mauve-dark: #5e3e87;
+      --text-light: #f5f5f5;
+      --bg-dark: #1a1a1d;
+      --glow: rgba(155, 121, 198, 0.4);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(30, 20, 40, 0.9);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      z-index: 1000;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    header.scrolled {
+      background-color: rgba(30, 20, 40, 0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    header.hidden {
+      display: none;
+    }
+
+    header h1 {
+      margin: 0;
+      color: var(--mauve-medium);
+      flex: 0 0 auto;
+      text-align: left;
+      font-size: 1.6rem;
+    }
+
+    nav {
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      margin: 0 1.5rem;
+      text-decoration: none;
+      color: var(--mauve-light);
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a.active,
+    nav a:hover {
+      color: white;
+    }
+
+    .links {
+      flex: 0 0 auto;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .links a {
+      color: var(--mauve-light);
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      color: white;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 7rem 3rem 3rem;
+      flex-grow: 1;
+    }
+
+    .gallery img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--glow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px var(--mauve-medium);
+    }
+
+    /* Modale */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 10, 15, 0.95);
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    /* Zones cliquables gauche/droite */
+    .modal-side {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 15vw;
+      cursor: pointer;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-side-left {
+      left: 0;
+      background: linear-gradient(to right, rgba(155,121,198,0.1), transparent);
+    }
+
+    .modal-side-right {
+      right: 0;
+      background: linear-gradient(to left, rgba(155,121,198,0.1), transparent);
+    }
+
+    .modal-side-left:hover {
+      background: linear-gradient(to right, rgba(155,121,198,0.2), transparent);
+    }
+
+    .modal-side-right:hover {
+      background: linear-gradient(to left, rgba(155,121,198,0.2), transparent);
+    }
+
+    /* Footer */
+    footer {
+      background-color: rgba(30, 20, 40, 0.9);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.4);
+      padding: 1rem 2rem;
+      text-align: center;
+      color: var(--mauve-light);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+
+    footer a {
+      color: var(--mauve-light);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    footer svg {
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <h1>AkaMoonKana</h1>
+
+  <nav class="d-flex align-items-center">
+    <a href="#" class="tab-link active" data-tab="SFW">SFW</a>
+    <a href="#" class="tab-link" data-tab="NSFW">NSFW</a>
+  </nav>
+
+  <div class="links d-flex gap-3">
+    <a href="https://discord.gg/DW4wx8Zc9A" target="_blank" aria-label="Discord" title="Discord" class="text-decoration-none">
+      <i class="bi bi-discord" style="color: #c7b8dd;"></i>
+    </a>
+    <a href="https://x.com/AkaMoonKana" target="_blank" aria-label="Twitter" title="Twitter" class="text-decoration-none">
+      <i class="bi bi-twitter" style="color: #c7b8dd;"></i>
+    </a>
+    <a href="https://www.wattpad.com/story/393992460" target="_blank" aria-label="Wattpad" title="Wattpad" class="text-decoration-none">
+      <i class="bi bi-book" style="color: #c7b8dd;"></i>
+    </a>
+  </div>
+</header>
+
+
+<div id="gallery" class="gallery">
+  <!-- Les images seront chargées ici -->
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-side modal-side-left"></div>
+  <img src="" alt="Aperçu" id="modal-img">
+  <div class="modal-side modal-side-right"></div>
+</div>
+
+<footer>
+  <span>Fancomic par</span>
+  <a href="https://twitter.com/mame1645" target="_blank" rel="noopener" aria-label="Twitter de Mame1645" title="Twitter de Mame1645">
+    Mame1645
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.954 4.569c-.885.39-1.83.654-2.825.775 1.014-.609 1.794-1.574 2.163-2.724-.949.555-2.005.959-3.127 1.184-.897-.959-2.178-1.559-3.594-1.559-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.734.2-1.522.232-2.229.084.627 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.209 7.557 2.209 9.054 0 14-7.496 14-13.986 0-.21 0-.423-.015-.633.962-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+  </a>
+  <span>• Traduction AkaMoonKana</span>
+</footer>
+
+<script src="sfw.js"></script>
+<script src="nsfw.js"></script>
+
+<script>
+  const gallery = document.getElementById("gallery");
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const header = document.getElementById("main-header");
+  const leftSide = document.querySelector('.modal-side-left');
+  const rightSide = document.querySelector('.modal-side-right');
+  
+  let currentIndex = 0;
+  let currentImages = [];
+  
+  function loadImages(folder) {
+    gallery.innerHTML = "";
+    currentImages = [];
+    const images = folder === "SFW" ? sfwImages : nsfwImages;
+    Object.entries(images).forEach(([filename, url]) => {
+      const imgEl = document.createElement("img");
+      imgEl.src = url;
+      imgEl.alt = filename;
+      gallery.appendChild(imgEl);
+      currentImages.push(url);
+    });
+  }
+  
+  // Appel initial
+  loadImages("SFW");
+  
+  // Ouvre la modale sur l'image cliquée
+  gallery.addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+      currentIndex = currentImages.indexOf(e.target.src);
+      openModal();
+    }
+  });
+  
+  function openModal() {
+    modalImg.src = currentImages[currentIndex];
+    modal.classList.add("active");
+    header.style.display = "none";
+    document.body.style.overflow = "hidden";
+  }
+  
+  // Ferme la modale
+  function closeModal() {
+    modal.classList.remove("active");
+    header.style.display = "";
+    document.body.style.overflow = "";
+  }
+  
+  // Navigation dans la modale
+  function showNext() {
+    currentIndex = (currentIndex + 1) % currentImages.length;
+    modalImg.src = currentImages[currentIndex];
+  }
+  
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    modalImg.src = currentImages[currentIndex];
+  }
+  
+  // Clic sur zones latérales pour changer d'image
+  leftSide.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPrev();
+  });
+  
+  rightSide.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showNext();
+  });
+  
+  // Clic sur fond modale ferme la modale
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+  
+  // Navigation au clavier
+  window.addEventListener("keydown", (e) => {
+    if (!modal.classList.contains("active")) return;
+  
+    if (e.key === "ArrowRight") {
+      showNext();
+    } else if (e.key === "ArrowLeft") {
+      showPrev();
+    } else if (e.key === "Escape") {
+      closeModal();
+    }
+  });
+  
+  // Pour que les tabs fonctionnent aussi
+  document.querySelectorAll('.tab-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      loadImages(e.currentTarget.dataset.tab);
+      closeModal();
+    });
+  });
+</script>
+
+</body>
+</html>
