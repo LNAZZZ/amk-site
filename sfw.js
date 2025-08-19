@@ -58,7 +58,5 @@ const sfwImages = {
   "uiuiuiuiuiuiuiuiujpg.jpg": "https://cdn.imgchest.com/files/45xcvdwjwr7.jpg",
   "yotsugene.jpg": "https://cdn.imgchest.com/files/7pjcq5op6q7.jpg",
   "yotsuprison.jpg": "https://cdn.imgchest.com/files/739cx9md3m7.jpg",
-  "gloupsituski.jpg": "https://cdn.imgchest.com/files/4z9cvx93rj7.jpg"
-  "4jdcvn29ea4.jpg": "https://cdn.imgchest.com/files/45xcv2ngn97.jpg",
-  "4jdcvn29ea4.jpg": "https://cdn.imgchest.com/files/yvdcwk8evky.jpg",
+  "gloupsituski.jpg": "https://cdn.imgchest.com/files/4z9cvx93rj7.jpg",
 };
