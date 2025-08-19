@@ -10,7 +10,6 @@
   <meta charset="UTF-8">
   <title>AkaMoonKana</title>
   <style>
-    
     :root {
       --mauve-light: #c7b8dd;
       --mauve-medium: #9b79c6;
@@ -158,7 +157,7 @@
       position: fixed;
       top: 0;
       bottom: 0;
-      width: 15vw;
+      width: 30vw;
       cursor: pointer;
       z-index: 1000;
       transition: background-color 0.3s ease;
@@ -166,20 +165,20 @@
 
     .modal-side-left {
       left: 0;
-      background: linear-gradient(to right, rgba(155,121,198,0.1), transparent);
+      background: linear-gradient(to right, rgba(155,121,198,0.3), transparent);
     }
 
     .modal-side-right {
       right: 0;
-      background: linear-gradient(to left, rgba(155,121,198,0.1), transparent);
+      background: linear-gradient(to left, rgba(155,121,198,0.3), transparent);
     }
 
     .modal-side-left:hover {
-      background: linear-gradient(to right, rgba(155,121,198,0.2), transparent);
+      background: linear-gradient(to right, rgba(155,121,198,0.6), transparent);
     }
 
     .modal-side-right:hover {
-      background: linear-gradient(to left, rgba(155,121,198,0.2), transparent);
+      background: linear-gradient(to left, rgba(155,121,198,0.6), transparent);
     }
 
     /* Footer */
@@ -224,6 +223,7 @@
   <h1>AkaMoonKana</h1>
 
   <nav class="d-flex align-items-center">
+    <a href="#" class="tab-link" data-tab="ALL">TOUT</a>
     <a href="#" class="tab-link active" data-tab="SFW">SFW</a>
     <a href="#" class="tab-link" data-tab="NSFW">NSFW</a>
   </nav>
@@ -274,24 +274,54 @@
   
   let currentIndex = 0;
   let currentImages = [];
-  
+  let imagesToLoad = [];
+  let loadedCount = 0;
+  const BATCH_SIZE = 18; // ✅ nb d’images chargées à chaque scroll
+
   function loadImages(folder) {
     gallery.innerHTML = "";
     currentImages = [];
-    const images = folder === "SFW" ? sfwImages : nsfwImages;
-    Object.entries(images).forEach(([filename, url]) => {
+    imagesToLoad = [];
+
+    if (folder === "SFW") {
+      imagesToLoad = Object.values(sfwImages);
+    } else if (folder === "NSFW") {
+      imagesToLoad = Object.values(nsfwImages);
+    } else if (folder === "ALL") {
+      imagesToLoad = [...Object.values(sfwImages), ...Object.values(nsfwImages)];
+    }
+
+    loadedCount = 0;
+    loadNextBatch();
+  }
+
+  // ✅ Chargement progressif
+  function loadNextBatch() {
+    const nextImages = imagesToLoad.slice(loadedCount, loadedCount + BATCH_SIZE);
+    nextImages.forEach(url => {
       const imgEl = document.createElement("img");
       imgEl.src = url;
-      imgEl.alt = filename;
+      imgEl.loading = "lazy"; // ✅ lazy loading natif
+      imgEl.alt = "image";
       gallery.appendChild(imgEl);
       currentImages.push(url);
     });
+    loadedCount += nextImages.length;
   }
-  
+
+  // ✅ Détection scroll bas de page
+  window.addEventListener("scroll", () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+      if (loadedCount < imagesToLoad.length) {
+        loadNextBatch();
+      }
+    }
+  });
+
   // Appel initial
   loadImages("SFW");
   
-  // Ouvre la modale sur l'image cliquée
+  // Ouvre la modale
   gallery.addEventListener("click", (e) => {
     if (e.target.tagName === "IMG") {
       currentIndex = currentImages.indexOf(e.target.src);
@@ -306,14 +336,12 @@
     document.body.style.overflow = "hidden";
   }
   
-  // Ferme la modale
   function closeModal() {
     modal.classList.remove("active");
     header.style.display = "";
     document.body.style.overflow = "";
   }
   
-  // Navigation dans la modale
   function showNext() {
     currentIndex = (currentIndex + 1) % currentImages.length;
     modalImg.src = currentImages[currentIndex];
@@ -324,7 +352,6 @@
     modalImg.src = currentImages[currentIndex];
   }
   
-  // Clic sur zones latérales pour changer d'image
   leftSide.addEventListener('click', (e) => {
     e.stopPropagation();
     showPrev();
@@ -335,27 +362,20 @@
     showNext();
   });
   
-  // Clic sur fond modale ferme la modale
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       closeModal();
     }
   });
   
-  // Navigation au clavier
   window.addEventListener("keydown", (e) => {
     if (!modal.classList.contains("active")) return;
-  
-    if (e.key === "ArrowRight") {
-      showNext();
-    } else if (e.key === "ArrowLeft") {
-      showPrev();
-    } else if (e.key === "Escape") {
-      closeModal();
-    }
+    if (e.key === "ArrowRight") showNext();
+    else if (e.key === "ArrowLeft") showPrev();
+    else if (e.key === "Escape") closeModal();
   });
   
-  // Pour que les tabs fonctionnent aussi
+  // ✅ Gestion des tabs
   document.querySelectorAll('.tab-link').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -366,6 +386,7 @@
     });
   });
 </script>
+
 
 </body>
 </html>
