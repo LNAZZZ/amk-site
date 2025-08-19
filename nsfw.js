@@ -33,5 +33,5 @@ const nsfwImages = {
   "tuesgrosseitsuki.jpg": "https://cdn.imgchest.com/files/4nec8kv69k4.jpg",
   "tuesgrosseitsuki2.jpg": "https://cdn.imgchest.com/files/7bwckxonmw7.jpg",
   "unbased.jpg": "https://cdn.imgchest.com/files/7pjcq5oplo7.jpg",
-  "wshcajutesici.jpg": "https://cdn.imgchest.com/files/7ogcb5n32vy.jpg"
+  "wshcajutesici.jpg": "https://cdn.imgchest.com/files/7ogcb5n32vy.jpg",
 };
