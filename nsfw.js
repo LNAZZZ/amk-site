@@ -35,4 +35,5 @@ const nsfwImages = {
   "unbased.jpg": "https://cdn.imgchest.com/files/7pjcq5oplo7.jpg",
   "wshcajutesici.jpg": "https://cdn.imgchest.com/files/7ogcb5n32vy.jpg",
   "wowmaisd__voronssesmagnifiquesseinssurtout.jpg": "https://cdn.imgchest.com/files/7bwckpw9ld7.jpg",
+  "merveilledumonde.jpg": "https://cdn.imgchest.com/files/yrgcnj6pjo4.jpg",
 };
