@@ -36,4 +36,5 @@ const nsfwImages = {
   "wshcajutesici.jpg": "https://cdn.imgchest.com/files/7ogcb5n32vy.jpg",
   "wowmaisd__voronssesmagnifiquesseinssurtout.jpg": "https://cdn.imgchest.com/files/7bwckpw9ld7.jpg",
   "merveilledumonde.jpg": "https://cdn.imgchest.com/files/yrgcnj6pjo4.jpg",
+  "LATAILELDESBZEZMAISALLO.jpg": "https://cdn.imgchest.com/files/y2pckeeenj7.jpg",
 };
