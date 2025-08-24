@@ -59,4 +59,5 @@ const sfwImages = {
   "yotsugene.jpg": "https://cdn.imgchest.com/files/7pjcq5op6q7.jpg",
   "yotsuprison.jpg": "https://cdn.imgchest.com/files/739cx9md3m7.jpg",
   "gloupsituski.jpg": "https://cdn.imgchest.com/files/4z9cvx93rj7.jpg",
+  "LABAISEEEE.jpg": "https://cdn.imgchest.com/files/4jdcveeem54.jpg",
 };
